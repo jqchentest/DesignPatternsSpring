@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.8">
+<meta name="author" content="v1.0 2018-1-20">
+<title>spring中的设计模式</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Uncomment @import statement below to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock pre.nowrap,.literalblock pre.nowrap pre,.listingblock pre.nowrap,.listingblock pre.nowrap pre{white-space:pre;word-wrap:normal}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #dddddf}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin:0 0 1.25em;padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd){background:#f8f8f7}
+table.stripes-none tr,table.stripes-odd tr:nth-of-type(even){background:none}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>spring中的设计模式</h1>
+<div class="details">
+<span id="author" class="author">chenjunqiang &lt;chenjunqiang@xxbmm.com&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">目录</div>
+<ul class="sectlevel1">
+<li><a href="#_什么是设计模式">什么是设计模式</a>
+<ul class="sectlevel2">
+<li><a href="#_设计模式之六大原则">设计模式之六大原则</a></li>
+</ul>
+</li>
+<li><a href="#_工厂模式">工厂模式</a>
+<ul class="sectlevel3">
+<li><a href="#_工厂模式包含如下角色">工厂模式包含如下角色</a></li>
+<li><a href="#_实例">实例</a></li>
+<li><a href="#_spring中的例子">spring中的例子</a></li>
+<li><a href="#_优缺点">优缺点</a></li>
+</ul>
+</li>
+<li><a href="#_适配器模式">适配器模式</a>
+<ul class="sectlevel2">
+<li><a href="#_适配器模式包含如下角色">适配器模式包含如下角色：</a></li>
+<li><a href="#_实例_2">实例</a></li>
+<li><a href="#_spring中的例子_2">spring中的例子</a></li>
+<li><a href="#_优缺点_2">优缺点</a></li>
+</ul>
+</li>
+<li><a href="#_构建器模式">构建器模式</a>
+<ul class="sectlevel3">
+<li><a href="#_建造者模式包含如下角色">建造者模式包含如下角色：</a></li>
+<li><a href="#_用途">用途</a></li>
+<li><a href="#_spring中的例子_3">spring中的例子</a></li>
+<li><a href="#_优缺点_3">优缺点</a></li>
+</ul>
+</li>
+<li><a href="#_观察者模式">观察者模式</a>
+<ul class="sectlevel2">
+<li><a href="#_观察者模式包含如下角色">观察者模式包含如下角色</a></li>
+<li><a href="#_实例_3">实例</a></li>
+<li><a href="#_spring中的例子_4">spring中的例子</a></li>
+<li><a href="#_优缺点_4">优缺点</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_什么是设计模式">什么是设计模式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素） 中所提到的，总共有 23 种设计模式。<br>
+这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。</p>
+</div>
+<div class="sect2">
+<h3 id="_设计模式之六大原则">设计模式之六大原则</h3>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">开闭原则（Open Close Principle</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>意思：软件模块应该对扩展开放，对修改关闭。</p>
+</li>
+<li>
+<p>举例：在程序需要进行新增功能的时候，不能去修改原有的代码，而是新增代码，实现一个热插拔的效果（热插拔：灵活的去除或添加功能，不影响到原有的功能）。</p>
+</li>
+<li>
+<p>目的：为了使程序的扩展性好，易于维护和升级。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">里氏代换原则（Liskov Substitution Principle）</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>意思：里氏代换原则是继承复用的基石，只有当衍生类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。</p>
+</li>
+<li>
+<p>举例：球类，原本是一种体育用品，它的衍生类有篮球、足球、排球、羽毛球等等，如果衍生类替换了基类的原本方法，如把体育用品改成了食用品（那么软件单位的功能受到影响），就不符合里氏代换原则。</p>
+</li>
+<li>
+<p>目的：对实现抽象化的具体步骤的规范。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">依赖倒转原则（Dependence Inversion Principle）</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>意思：针对接口编程，而不是针对实现编程。</p>
+</li>
+<li>
+<p>举例：以计算机系统为例,无论主板、CPU、内存、硬件都是在针对接口设计的，如果针对实现来设计，内存就要对应到针对某个品牌的主板，那么会出现换内存需要把主板也换掉的尴尬。</p>
+</li>
+<li>
+<p>目的：降低模块间的耦合。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">接口隔离原则（Interface Segregation Principle）</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>使用多个隔离的接口，比使用单个接口要好。</p>
+</li>
+<li>
+<p>举例：比如：登录，注册时属于用户模块的两个接口，比写成一个接口好。</p>
+</li>
+<li>
+<p>目的：提高程序设计灵活性。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">迪米特法则（最少知道原则）（Demeter Principle）</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>意思：一个实体应当尽量少的与其他实体之间发生相互作用，使得系统功能模块相对独立。</p>
+</li>
+<li>
+<p>举例：一个类公开的public属性或方法越多，修改时涉及的面也就越大，变更引起的风险扩散也就越大。</p>
+</li>
+<li>
+<p>目的：降低类之间的耦合，减少对其他类的依赖。</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">单一职责原则（ Single responsibility principle ）</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>意思：一个类只负责一个功能领域中的相应职责，或者可以定义为：就一个类而言，应该只有一个引起它变化的原因。</p>
+</li>
+<li>
+<p>举例：该原则意思简单到不需要举例！</p>
+</li>
+<li>
+<p>目的：类的复杂性降低，可读性提高，可维护性提高。</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_工厂模式">工厂模式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>使用简单工厂模式可以将产品的“消费”和生产完全分开，客户端只需要知道自己需要什么产品，
+如何来使用产品就可以了，具体的产品生产任务由具体的工厂类来实现。工厂类根据传进来的参数生产具体的产品供消费者使用。
+这种模式使得更加利于扩展，当有新的产品加入时仅仅需要在工厂中加入新产品的构造就可以了。</p>
+</div>
+<div class="sect3">
+<h4 id="_工厂模式包含如下角色">工厂模式包含如下角色</h4>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Factory: 工厂角色（Factory）<br>
+AbstractProduct: 抽象产品角色（Car）<br>
+ConcreteProduct: 具体产品角色（Audi,Benz,Bmw）</p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img-blog.csdn.net/20151123182459928" alt="20151123182459928">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_实例">实例</h4>
+<div class="paragraph">
+<p>话说有一位土豪，他家有三辆汽车——Benz奔驰、Bmw宝马、Audi奥迪，还雇了司机为他开车。
+不过，土豪坐车时总是怪怪的：上Benz车后跟司机说“开奔驰车！”坐上Bmw后他说“开宝马车！”，坐上Audi说“开奥迪车！”。
+你一定说：这人有病！直接说开车不就行了？！ 而当把土豪的行为放到我们程序设计中来时，会发现这是一个普遍存在的现象。
+幸运的是，这种有病的现象在OO（面向对象）语言中可以避免了。下面就以Java语言为例来讲解一下如何避免这种问题。</p>
+</div>
+<div class="sect4">
+<h5 id="_抽象产品abstractproduct">抽象产品(AbstractProduct)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public abstract class Car {
+  /**
+   * 启动汽车
+   */
+  abstract void drive();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_具体产品concreteproduct">具体产品(ConcreteProduct)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * 具体产品 宝马
+ * @author chenjunqiang
+ **/
+public static class Bmw extends Car {
+
+  @Override
+  void drive() {
+    System.out.println("宝马启动~");
+  }
+}
+
+/**
+ * 具体产品 奔驰
+ * @author chenjunqiang
+ **/
+public static class Benz extends Car {
+
+  @Override
+  void drive() {
+    System.out.println("奔驰启动~");
+  }
+}
+
+/**
+ * 具体产品 奥迪
+ * @author chenjunqiang
+ **/
+public static class Audi extends Car {
+
+  @Override
+  void drive() {
+    System.out.println("奥迪启动~");
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_工厂角色factory">工厂角色(Factory)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Factory {
+
+  public static Car getCar(String type) throws Exception {
+    if ("Benz".equals(type)) {
+      return new Benz();
+    } else if ("Audi".equals(type)) {
+      return new Audi();
+    } else if ("Bmw".equals(type)) {
+      return new Bmw();
+    } else {
+      throw new Exception();
+    }
+  }
+}
+
+//进化版
+public static Car getCar(String type) throws Exception {
+  return (Car) Class.forName("com.xxbmm.simple_factory.Factory$" + type).newInstance();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_测试类">测试类:</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static void main(String[] args) throws Exception {
+   Car car = Factory.getCar("Benz");
+   car.drive();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spring中的例子">spring中的例子</h3>
+<div class="paragraph">
+<p>在Spring中，我们可以通过指定的工厂方法创建bean。该方法与以前代码示例中看到的完全相同。
+它是静态的，可以采取没有或多个参数。为了更好地了解案例，让我们来看一下实例。首先搞定下配置：</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;bean id="welcomerBean" class="com.mysite.Welcomer" factory-method="createWelcomer"&gt;
+  &lt;constructor-arg ref="messagesLocator"&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+
+&lt;bean id="messagesLocator" class="com.mysite.MessageLocator"&gt;
+  &lt;property name="messages" value="messages_file.properties"&gt;&lt;/property&gt;
+&lt;/bean&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>bean的初始化代码：</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Welcomer {
+  private String message;
+
+  public Welcomer(String message) {
+    this.message = message;
+  }
+
+  public static Welcomer createWelcomer(MessageLocator messagesLocator) {
+    Calendar cal = Calendar.getInstance();
+    String msgKey = "welcome.pm";
+    if (cal.get(Calendar.AM_PM) == Calendar.AM) {
+      msgKey = "welcome.am";
+    }
+    return new Welcomer(messagesLocator.getMessageByKey(msgKey));
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_优缺点">优缺点</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>优点： 1、一个调用者想创建一个对象，只要知道其名称就可以了。 2、扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以。 3、屏蔽产品的具体实现，调用者只关心产品的接口。</p>
+</div>
+<div class="paragraph">
+<p>缺点：每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_适配器模式">适配器模式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>把一个类的接口变换成客户端所期待的另一种接口，从而使原本接口不匹配而无法一起工作的两个类能够在一起工作。</p>
+</div>
+<div class="sect2">
+<h3 id="_适配器模式包含如下角色">适配器模式包含如下角色：</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Target：目标角色(Target)<br>
+Adaptee：源角色类(PowerPort220V)<br>
+Adapter：适配器类(Adapter220V、Adapter220V2)<br></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>适配器模式有两种 类适配器和对象适配器
+===== 类适配器</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://upload-images.jianshu.io/upload_images/944365-24c6bf44da1b79ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1240">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_对象适配器">对象适配器</h5>
+<div class="imageblock">
+<div class="content">
+<img src="http://upload-images.jianshu.io/upload_images/944365-c736416f78a5b2d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1240">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_实例_2">实例</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>背景：小成买了一个进口的电视机</p>
+</li>
+<li>
+<p>冲突：进口电视机要求电压（110V）与国内插头标准输出电压（220V）不兼容</p>
+</li>
+<li>
+<p>解决方案：设置一个适配器将插头输出的220V转变成110V</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_target目标角色target">Target：目标角色(Target)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface Target {
+  /**
+   * 输出110V
+   */
+  void Convert_110v();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_源角色类adaptee">源角色类(Adaptee)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class PowerPort220V {
+  /**
+   * 原有插头只能输出220V
+   */
+  public void Output_220v() {
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_类适配器">类适配器</h4>
+<div class="sect4">
+<h5 id="_适配器类adapter">适配器类(Adapter)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * 适配器角色 220v插头适配器
+ */
+class Adapter220V extends PowerPort220V implements Target {
+  @Override
+  public void Convert_110v() {
+    System.out.println("类适配器");
+    this.Output_220v();
+    System.out.println("220v转换成110v电压 可以使用了");
+  }
+
+  //测试类
+  public static void main(String[] args) {
+    Target target = new Adapter220V();
+    target.Convert_110v();
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_对象适配器_2">对象适配器</h4>
+<div class="sect4">
+<h5 id="_适配器类adapter_2">适配器类(Adapter)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * 适配器角色 220v插头适配器
+ */
+class Adapter220V extends PowerPort220V implements Target {
+  private PowerPort220V powerPort220V = new PowerPort220V();
+
+  @Override
+  public void Convert_110v() {
+    System.out.println("对象适配器");
+    powerPort220V.Output_220v();
+    System.out.println("220v转换成110v电压 可以使用了");
+  }
+
+  //测试类
+  public static void main(String[] args) {
+    Target target = new Adapter220V2();
+    target.Convert_110v();
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spring中的例子_2">spring中的例子</h3>
+<div class="paragraph">
+<p>在Spring的Aop中，使用的Advice（通知）来增强被代理类的功能。Spring实现这一AOP功能的原理就使用代理模式（1、JDK动态代理。2、CGLib字节码生成技术代理。）对类进行方法级别的切面增强，即，生成被代理类的代理类， 并在代理类的方法前，设置拦截器，通过执行拦截器重的内容增强了代理方法的功能，实现的面向切面编程。</p>
+</div>
+<div class="paragraph">
+<p>Advice（通知）的类型有：BeforeAdvice、AfterReturningAdvice、ThreowSadvice的。</p>
+</div>
+<div class="paragraph">
+<p>在每个类型Advice（通知）都有对应的拦截器，MethodBeforeAdviceInterceptor、AfterReturningAdviceInterceptor、ThrowsAdviceInterceptor。</p>
+</div>
+<div class="paragraph">
+<p>Spring需要将每个Advice（通知）都封装成对应的拦截器类型，返回给容器，所以需要使用适配器模式对Advice进行转换。下面看看具体的代码。</p>
+</div>
+<div class="paragraph">
+<p><strong>MethodBeforeAdvice类：Adaptee</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface MethodBeforeAdvice extends BeforeAdvice {
+
+    void before(Method method, Object[] args, Object target) throws Throwable;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Adapter类接口：Target</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface AdvisorAdapter {
+
+  boolean supportsAdvice(Advice advice);
+
+  MethodInterceptor getInterceptor(Advisor advisor);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>MethodBeforeAdviceAdapter类，Adapter</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">class MethodBeforeAdviceAdapter implements AdvisorAdapter, Serializable {
+
+  public boolean supportsAdvice(Advice advice) {
+    return (advice instanceof MethodBeforeAdvice);
+  }
+
+  public MethodInterceptor getInterceptor(Advisor advisor) {
+    MethodBeforeAdvice advice = (MethodBeforeAdvice) advisor.getAdvice();
+    return new MethodBeforeAdviceInterceptor(advice);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>DefaultAdvisorAdapterRegistry类，Client</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Serializable {
+
+  private final List&lt;AdvisorAdapter&gt; adapters = new ArrayList&lt;AdvisorAdapter&gt;(3);
+
+
+  /**
+  * Create a new DefaultAdvisorAdapterRegistry, registering well-known adapters.
+  */
+  public DefaultAdvisorAdapterRegistry() {//这里注册了适配器
+    registerAdvisorAdapter(new MethodBeforeAdviceAdapter());
+    registerAdvisorAdapter(new AfterReturningAdviceAdapter());
+    registerAdvisorAdapter(new ThrowsAdviceAdapter());
+  }
+
+
+  public Advisor wrap(Object adviceObject) throws UnknownAdviceTypeException {
+    if (adviceObject instanceof Advisor) {
+      return (Advisor) adviceObject;
+    }
+    if (!(adviceObject instanceof Advice)) {
+      throw new UnknownAdviceTypeException(adviceObject);
+    }
+    Advice advice = (Advice) adviceObject;
+    if (advice instanceof MethodInterceptor) {
+      // So well-known it doesn't even need an adapter.
+      return new DefaultPointcutAdvisor(advice);
+    }
+    for (AdvisorAdapter adapter : this.adapters) {
+      // Check that it is supported.
+      if (adapter.supportsAdvice(advice)) {//这里调用了适配器的方法
+        return new DefaultPointcutAdvisor(advice);
+      }
+    }
+    throw new UnknownAdviceTypeException(advice);
+  }
+
+  public MethodInterceptor[] getInterceptors(Advisor advisor) throws UnknownAdviceTypeException {
+    List&lt;MethodInterceptor&gt; interceptors = new ArrayList&lt;MethodInterceptor&gt;(3);
+    Advice advice = advisor.getAdvice();
+    if (advice instanceof MethodInterceptor) {
+      interceptors.add((MethodInterceptor) advice);
+    }
+    for (AdvisorAdapter adapter : this.adapters) {
+      if (adapter.supportsAdvice(advice)) {//这里调用了适配器的方法
+        interceptors.add(adapter.getInterceptor(advisor));
+      }
+    }
+    if (interceptors.isEmpty()) {
+      throw new UnknownAdviceTypeException(advisor.getAdvice());
+    }
+    return interceptors.toArray(new MethodInterceptor[interceptors.size()]);
+  }
+
+  public void registerAdvisorAdapter(AdvisorAdapter adapter) {
+    this.adapters.add(adapter);
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_优缺点_2">优缺点</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>优点: 灵活性高、低耦合  采用 “对象组合”的方式，是动态组合方式<br>
+缺点: 使用复杂  需要引入对象实例</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_构建器模式">构建器模式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>建造者模式（英：Builder Pattern）是一种创建型设计模式，又名：生成器模式。
+GOF 给建造者模式的定义为：将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
+这句话说的比较抽象，其实解释一下就是：将建造复杂对象的过程和组成对象的部件解耦。</p>
+</div>
+<div class="sect3">
+<h4 id="_建造者模式包含如下角色">建造者模式包含如下角色：</h4>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Builder：抽象建造者(Builder)<br>
+ConcreteBuilder：具体建造者(CommonBuilder、SuperManBuilder)<br>
+Director：指挥者(Director)<br>
+Product：产品角色(Product)<br></p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://www.hollischuang.com/wp-content/uploads/2016/05/Builder.jpg" alt="Builder">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_用途">用途</h4>
+<div class="paragraph">
+<p>假设现在我们是一家网游设计公司，现在我们要”抄袭”梦幻西游这款游戏，你是该公司的游戏角色设计人员。你怎么设计出该游戏中的各种角色呢？ 在梦幻西游来中包括人、仙、魔等种族的角色，而每种不同的种族的角色中又包含龙太子、逍遥生等具体的角色。</p>
+</div>
+<div class="paragraph">
+<p>作为一个出色的开发人员，我们设计的角色生成系统应该包含以下功能和特性:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>为了保证游戏平衡，所有角色的基本属性应该一致<br>
+因为角色的创建过程可能很复杂，所以角色的生成细节不应该对外暴露<br>
+随时可以新增角色<br>
+对某个具体角色的修改应该不影响其他角色<br></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>其实，对于角色的设计，我们可以使用抽象工厂模式，将同一种族的角色看成是一个产品族。
+但是，这样做可能存在一个问题，那就是我们可能要在每个角色的创建过程中都要从头到尾的构建一遍该角色。
+比如一个角色包含头部、身体。其中头部又包括脸部、和其他部位。其中脸部又包含眉毛、嘴巴、鼻子等部位。
+整个角色的创建过程是极其复杂的。很容易遗漏其中的某个步骤。</p>
+</div>
+<div class="paragraph">
+<p>那么，我们可以将这些具体部位的创建工作和对象的创建进行解耦。这就是建造者模式。</p>
+</div>
+<div class="sect4">
+<h5 id="_产品角色product">产品角色(Product)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Product {
+  /**
+  * 名字
+  */
+  private String name;
+  /**
+  * 颜值
+  */
+  private String face;
+  /**
+  * 力量
+  */
+  private Integer power;
+
+  /**
+  * 女朋友
+  */
+  private String girlFriend;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_抽象建造者builder">抽象建造者(Builder)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface Builder {
+  void name();
+
+  void face();
+
+  void power();
+
+  void girlFriend();
+
+  Product getProduct();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_具体建造者concretebuilder">具体建造者(ConcreteBuilder)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class CommonBuilder implements Builder {
+
+  private Product product = new Product();
+
+  @Override
+  public void name() {
+    product.setName("宋洋");
+  }
+
+  @Override
+  public void face() {
+    product.setFace("丑陋的");
+  }
+
+  @Override
+  public void power() {
+    product.setPower(2);
+  }
+
+  @Override
+  public void girlFriend() {
+  }
+
+  @Override
+  public Product getProduct() {
+    return product;
+  }
+}
+
+public class SuperManBuilder implements Builder {
+
+  private Product product = new Product();
+
+  @Override
+  public void name() {
+    product.setName("宋青龙");
+  }
+
+  @Override
+  public void face() {
+    product.setFace("帅气的");
+  }
+
+  @Override
+  public void power() {
+    product.setPower(9999);
+  }
+
+  @Override
+  public void girlFriend() {
+    product.setGirlFriend("有三个");
+  }
+
+  @Override
+  public Product getProduct() {
+    return product;
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_具体建造者director">具体建造者(Director)</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Director {
+  private Builder builder;
+
+  Director(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+  * 产品构造方法，在该方法内，调用人类建造方法。
+  */
+  public void construct() {
+    builder.name();
+    builder.face();
+    builder.power();
+    builder.girlFriend();
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_测试类_2">测试类:</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static void main(String[] args) {
+  Builder common = new CommonBuilder();
+  Director director = new Director(common);
+  director.construct();
+  Product product = common.getProduct();
+  System.out.println(product);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spring中的例子_3">spring中的例子</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private static RedisCacheConfiguration defaultRedisCacheConfiguration() {
+  return RedisCacheConfiguration.defaultCacheConfig()
+      .serializeKeysWith(STRING_PAIR)
+      .serializeValuesWith(JACKSON_PAIR)
+      .computePrefixWith(RedisCacheConstant::getPrefixKeysWith);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_优缺点_3">优缺点</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>优点： 1、建造者独立，易扩展。 2、便于控制细节风险。<br>
+缺点： 1、产品必须有共同点，范围有限制。 2、如内部变化复杂，会有很多的建造类。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_观察者模式">观察者模式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>观察者模式（又被称为发布-订阅（Publish/Subscribe）模式，属于行为型模式的一种，它定义了一种一对多的依赖关系，
+让多个观察者对象同时监听某一个主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新自己。</p>
+</div>
+<div class="sect2">
+<h3 id="_观察者模式包含如下角色">观察者模式包含如下角色</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Subject：抽象主题（抽象被观察者），抽象主题角色把所有观察者对象保存在一个集合里，每个主题都可以有任意数量的观察者，抽象主题提供一个接口，可以增加和删除观察者对象。<br>
+ConcreteSubject：具体主题（具体被观察者），该角色将有关状态存入具体观察者对象，在具体主题的内部状态发生改变时，给所有注册过的观察者发送通知。<br>
+Observer：抽象观察者，是观察者者的抽象类，它定义了一个更新接口，使得在得到主题更改通知时更新自己。<br>
+ConcrereObserver：具体观察者，实现抽象观察者定义的更新接口，以便在得到主题更改通知时更新自身的状态。<br></p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img-blog.csdn.net/20161111191040882" alt="20161111191040882">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_实例_3">实例</h3>
+<div class="paragraph">
+<p>观察者模式这种发布-订阅的形式我们可以拿微信公众号来举例，假设微信用户就是观察者，微信公众号是被观察者，有多个的微信用户关注了程序猿这个公众号，当这个公众号更新时就会通知这些订阅的微信用户。好了我们来看看用代码如何实现：</p>
+</div>
+<div class="sect4">
+<h5 id="_抽象观察者observer">抽象观察者（Observer）</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface Observer {
+
+  void update(String message);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_具体观察者concrereobserver">具体观察者（ConcrereObserver）</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class WeixinUser implements Observer {
+  private String name;
+
+  public WeixinUser(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public void update(String message) {
+    System.out.println(String.format("%s，%s", name, message));
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_抽象被观察者subject">抽象被观察者（Subject）</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public interface Subject {
+  /**
+   * 增加订阅者
+   */
+  void attach(Observer observer);
+
+  /**
+   * 删除订阅者
+   */
+  void detach(Observer observer);
+
+  /**
+   * 通知订阅者更新消息
+   */
+  void notify(String message);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_具体被观察者concretesubject">具体被观察者（ConcreteSubject）</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * 具体被观察者 公众号
+ * @author chenjunqiang 2019/1/22
+ **/
+public class GongzhonghaoSubject implements Subject {
+  /**
+   * 储存订阅公众号的微信用户
+   */
+  private List&lt;Observer&gt; userList = new ArrayList&lt;&gt;();
+
+  @Override
+  public void attach(Observer observer) {
+      userList.add(observer);
+  }
+
+  @Override
+  public void detach(Observer observer) {
+    userList.remove(observer);
+  }
+
+  @Override
+  public void notify(String message) {
+    for (Observer observer : userList) {
+      observer.update(message);
+    }
+  }
+}
+
+/**
+ * 具体被观察者 小程序
+ * @author chenjunqiang 2019/1/22
+ **/
+public class XiaochengxuSubject implements Subject {
+  /**
+   * 储存订阅小程序的微信用户
+   */
+  private List&lt;Observer&gt; userList = new ArrayList&lt;&gt;();
+
+  @Override
+  public void attach(Observer observer) {
+    userList.add(observer);
+  }
+
+  @Override
+  public void detach(Observer observer) {
+    userList.remove(observer);
+  }
+
+  @Override
+  public void notify(String message) {
+    for (Observer observer : userList) {
+      observer.update(message);
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_客户端调用">客户端调用</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Client {
+  private static GongzhonghaoSubject gongzhonghao = new GongzhonghaoSubject();
+  private static XiaochengxuSubject xiaochengxu = new XiaochengxuSubject();
+
+  static {
+    //创建微信用户
+    WeixinUser user1 = new WeixinUser("宋洋(๑ŐдŐ)b");
+    WeixinUser user2 = new WeixinUser("宋青龙");
+    WeixinUser user3 = new WeixinUser("李泽坤 皮卡皮卡001号");
+    //订阅公众号
+    gongzhonghao.attach(user1);
+    gongzhonghao.attach(user2);
+    gongzhonghao.attach(user3);
+    //订阅小程序
+    xiaochengxu.attach(user1);
+    xiaochengxu.attach(user3);
+  }
+
+  public static void main(String[] args) {
+    //公众号更新发出消息给订阅的微信用户
+    gongzhonghao.notify("小小包麻麻文章更新了");
+    xiaochengxu.notify("育儿锦囊有新视频啦");
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spring中的例子_4">spring中的例子</h3>
+<div class="paragraph">
+<p>在Spring中，观察者设计模式用于将与应用程序上下文相关的事件传输到org.springframework.context.ApplicationListener的实现。
+要了解它们的实现方法，我们来看一下AbstractApplicationContext类</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public abstract class AbstractApplicationContext extends DefaultResourceLoader
+		implements ConfigurableApplicationContext {
+
+  /** Statically specified listeners */
+  private final Set&lt;ApplicationListener&lt;?&gt;&gt; applicationListeners = new LinkedHashSet&lt;&gt;();
+
+	@Override
+	public void addApplicationListener(ApplicationListener&lt;?&gt; listener) {
+		Assert.notNull(listener, "ApplicationListener must not be null");
+		if (this.applicationEventMulticaster != null) {
+			this.applicationEventMulticaster.addApplicationListener(listener);
+		}
+		else {
+			this.applicationListeners.add(listener);
+		}
+	}
+
+	/**
+	 * Return the list of statically specified ApplicationListeners.
+	 */
+	public Collection&lt;ApplicationListener&lt;?&gt;&gt; getApplicationListeners() {
+		return this.applicationListeners;
+	}
+
+	@Override
+	public void refresh() throws BeansException, IllegalStateException {
+		synchronized (this.startupShutdownMonitor) {
+		// Prepare this context for refreshing.
+		prepareRefresh();
+
+		// Tell the subclass to refresh the internal bean factory.
+		ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+    ...
+		try {
+
+			// Check for listener beans and register them.
+			registerListeners();
+      ...
+	}
+
+  /**
+   * Add beans that implement ApplicationListener as listeners.
+   * Doesn't affect other listeners, which can be added without being beans.
+   */
+  protected void registerListeners() {
+    // Register statically specified listeners first.
+    for (ApplicationListener&lt;?&gt; listener : getApplicationListeners()) {
+      getApplicationEventMulticaster().addApplicationListener(listener);
+    }
+
+    // Do not initialize FactoryBeans here: We need to leave all regular beans
+    // uninitialized to let post-processors apply to them!
+    String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
+    for (String listenerBeanName : listenerBeanNames) {
+      getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
+    }
+
+    // Publish early application events now that we finally have a multicaster...
+    Set&lt;ApplicationEvent&gt; earlyEventsToProcess = this.earlyApplicationEvents;
+    this.earlyApplicationEvents = null;
+    if (earlyEventsToProcess != null) {
+      for (ApplicationEvent earlyEvent : earlyEventsToProcess) {
+        getApplicationEventMulticaster().multicastEvent(earlyEvent);
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>在提供的代码中，监听器在内部添加到应用程序上下文类中，并且在registerListeners()方法之后，
+它们被注册到由接口org.springframework.context.event.ApplicationEventMulticaster表示的适当的事件多路广播器
+(因为有很多listeners)。EventMulticaster负责管理不同的listener和向他们发布事件。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class SimpleApplicationEventMulticaster extends AbstractApplicationEventMulticaster {
+  private Executor taskExecutor;
+  private ErrorHandler errorHandler;
+
+  public SimpleApplicationEventMulticaster() {
+  }
+
+  public SimpleApplicationEventMulticaster(BeanFactory beanFactory) {
+    this.setBeanFactory(beanFactory);
+  }
+
+  public void setTaskExecutor(Executor taskExecutor) {
+    this.taskExecutor = taskExecutor;
+  }
+
+  protected Executor getTaskExecutor() {
+    return this.taskExecutor;
+  }
+
+  public void setErrorHandler(ErrorHandler errorHandler) {
+    this.errorHandler = errorHandler;
+  }
+
+  protected ErrorHandler getErrorHandler() {
+    return this.errorHandler;
+  }
+
+  public void multicastEvent(ApplicationEvent event) {
+    this.multicastEvent(event, this.resolveDefaultEventType(event));
+  }
+  //发布事件:通过池执行任务的方式来做并发处理，这样就把之前的对象池模式给利用上了
+  public void multicastEvent(final ApplicationEvent event, ResolvableType eventType) {
+    ResolvableType type = eventType != null?eventType:this.resolveDefaultEventType(event);
+    Iterator var4 = this.getApplicationListeners(event, type).iterator();
+
+    while(var4.hasNext()) {
+      final ApplicationListener&lt;?&gt; listener = (ApplicationListener)var4.next();
+      Executor executor = this.getTaskExecutor();
+      if(executor != null) {
+        executor.execute(new Runnable() {
+          public void run() {
+            SimpleApplicationEventMulticaster.this.invokeListener(listener, event);
+          }
+        });
+      } else {
+        this.invokeListener(listener, event);
+      }
+    }
+
+  }
+...
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_优缺点_4">优缺点</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>优点： 1、观察者和被观察者是抽象耦合的。 2、建立一套触发机制。</p>
+</div>
+<div class="paragraph">
+<p>缺点： 1、如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。<br>
+2、如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。<br>
+3、观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2019-01-24 12:05:35 +0800
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>
